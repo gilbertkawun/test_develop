@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "database_development",
+    "database": "m_development",
     "host": "localhost",
     "dialect": "postgres"
   },
