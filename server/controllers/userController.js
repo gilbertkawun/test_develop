@@ -27,13 +27,26 @@ class UserController {
       const { email, password } = req.body;
       const login = await User.findOne({ where: { email } });
 
+      if (!email) {
+        throw { name: "EmailEmpty" }
+      }
+
+      if (!password) {
+        throw { name: "PasswordEmpty" }
+      }
+
+      if (!login) {
+        throw { name: "Unauthorized" }
+      }
+
+      if (!compareHashWithPlain(password, login.password)) {
+        throw { name: "Unauthorized" };
+      }
+      
       const payload = {
         id: login.id,
         email: login.email,
       };
-      if (!compareHashWithPlain(password, login.password)) {
-        throw { name: "Unauthorized" };
-      }
 
       const token = createToken(payload);
       res.status(200).json({
